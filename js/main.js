@@ -13,8 +13,6 @@ function saveBookmark(e){
 	name : siteName,
 	url : siteUrl
 
-
-
     }
    
     /*local storage test
@@ -28,8 +26,9 @@ function saveBookmark(e){
     */
 
     //test if there is a valid site name and url
+    //CASE 1:  when bookmark array has not been created yet
     
-        //test if bookmarks even exists yet
+        //test if bookmarks even exists yet, if not, create array
         if(localStorage.getItem('bookmarks') === null){
         //Init array
         var bookmarks = [];
@@ -38,7 +37,21 @@ function saveBookmark(e){
                 bookmarks.push(bookmark);
             }
             else{
-                alert("You need to add name or url");
+                //just the bookmark name is empty
+                if(bookmark.name == '' && bookmark.url != ''){
+                    alert("You need to add a name");
+                    
+                }
+                //just the bookmark url is empty
+                if(bookmark.url == '' && bookmark.name != ''){
+                    alert("You need to add url");
+                }
+                //both the name and url are missing
+                if(bookmark.name == '' && bookmark.url == ''){
+                    //both are empty
+                    alert("You need to add url and name")
+                
+                }
             }
         
         //set to local storage
@@ -46,27 +59,40 @@ function saveBookmark(e){
             
         fetchBookmarks();
             
-        
+            
+            
+            
         //We've already made a bookmarks array, so lets add to it
+        //CASE 2: bookmark array has already been created
+        
         }
         else {
             //Get bookmarks from localStorage
             var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
             //lets check if any errors in user input
             if(bookmark.name != '' && bookmark.url != ''){
-    
                 //add bookmark to array
+                
                 bookmarks.push(bookmark);
+                
                 
             }
             else{
-                //bookmark name is empty
-                if(bookmark.name == ''){
-                    alert("You need to add a name")
-                
-                }//bookmark url is empty
-                    alert("You need to add name url");
-                
+                //just the bookmark name is empty
+                if(bookmark.name == '' && bookmark.url != ''){
+                    //bookmark name is empty
+                    alert("You need to add a name");
+                    
+                }
+                //just the bookmark url is empty
+                if(bookmark.url == '' && bookmark.name != ''){
+                    alert("You need to add url");
+                }
+                //both the name and url are missing
+                if(bookmark.name == '' && bookmark.url == ''){
+                    alert("You need to add url and name")
+                    
+                }
             }
             //Re-set back to local storage
             localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
